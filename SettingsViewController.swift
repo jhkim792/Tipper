@@ -10,10 +10,13 @@ import UIKit
 
 class SettingsViewController: UIViewController {
     
-    @IBOutlet weak var defaultTipField: UITextField!
+
+    @IBOutlet weak var defaultTipControl: UISegmentedControl!
+    
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
 
@@ -21,6 +24,13 @@ class SettingsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let indexSet = defaults.object(forKey: "defaultTipKey") as! Int
+        self.defaultTipControl.selectedSegmentIndex = indexSet
+    }
+
     
 
     /*
@@ -32,6 +42,11 @@ class SettingsViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    @IBAction func updateTip(_ sender: Any) {
+        let percentageIndex = defaultTipControl.selectedSegmentIndex
+        defaults.set( percentageIndex , forKey: "defaultTipKey")
+        defaults.synchronize()
+    }
 
 }

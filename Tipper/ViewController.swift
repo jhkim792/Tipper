@@ -9,27 +9,43 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    @IBOutlet weak var billField: UITextField!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tipLabel: UILabel!
-    @IBOutlet weak var tipPercentField: UITextField!
+    @IBOutlet weak var tipControl: UISegmentedControl!
+    
+    @IBOutlet weak var billField: UITextField!
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        // automatically cursors the bill field on load
         self.billField.becomeFirstResponder()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+
+    
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    override func viewWillAppear(_ animated: Bool){
+        super.viewWillAppear(animated);
+        let indexSet = defaults.object(forKey: "defaultTipKey") as! Int
+        self.tipControl.selectedSegmentIndex = indexSet;
+        self.calculate(self)
+    }
     
     
     @IBAction func calculate(_ sender: Any) {
+        let percentages = [ 0.18, 0.2, 0.22]
+        // main calculations
         let bill = Double(billField.text!) ?? 0
-        let tipPercentage = Double(tipPercentField.text!) ?? 0
-        let tip = bill * (tipPercentage/100)
+        let tipPercentage = percentages[tipControl.selectedSegmentIndex]
+        let tip = bill * tipPercentage
         let total = bill + tip
         
         tipLabel.text = String(format: "$%.2f", tip)
