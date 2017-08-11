@@ -12,8 +12,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tipLabel: UILabel!
     @IBOutlet weak var tipControl: UISegmentedControl!
-    
     @IBOutlet weak var billField: UITextField!
+    
+    
     let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
@@ -22,9 +23,6 @@ class ViewController: UIViewController {
         
         // automatically cursors the bill field on load
         self.billField.becomeFirstResponder()
-        
-
-    
         
     }
 
@@ -37,6 +35,13 @@ class ViewController: UIViewController {
         let indexSet = defaults.object(forKey: "defaultTipKey") as! Int
         self.tipControl.selectedSegmentIndex = indexSet;
         self.calculate(self)
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        let bill = Double(billField.text!)
+        defaults.set( bill , forKey: "lastBill")
     }
     
     

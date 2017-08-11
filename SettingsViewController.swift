@@ -42,11 +42,10 @@ class SettingsViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    @IBAction func updateTip(_ sender: Any) {
+
+    @IBAction func updateDefault(_ sender: Any) {
         let percentageIndex = defaultTipControl.selectedSegmentIndex
         defaults.set( percentageIndex , forKey: "defaultTipKey")
         defaults.synchronize()
     }
-
 }
